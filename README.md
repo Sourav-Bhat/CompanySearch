@@ -192,12 +192,10 @@ COMPANYSEARCH
 - **Testing**: The project includes unit and integration tests for the `CompanyController` and `CompanyService`. Run `mvn test` to execute the tests. WireMock is used to mock `TruProxyAPI` calls in tests.
 - **Error Handling**: The `CompanyService` includes error handling and retry mechanisms to gracefully handle potential API issues.
 - **Paging**: Paging is not implemented in this version.
-- **Further Enhancements**: You can extend this application by adding more features, improving the user interface, or implementing more advanced database queries.
-
 
 
 ## Screenshot
 
 ![View Application Screenshot](https://drive.google.com/file/d/1lx2r_rOoDmrtucIbOT7yegjSXNv4oLtm/view?usp=drive_link)
 
-(Note: You may need to open this link separately to view the screenshot)
+
