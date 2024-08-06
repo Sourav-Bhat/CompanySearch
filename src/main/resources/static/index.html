@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Search (Block Display)</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .results-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 20px auto; }
+        .company-card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1 0 300px; /* Ensure minimum width */ }
+        .company-card h2 { margin-top: 0; }
+        .company-card ul { list-style: none; padding: 0; }
+    </style>
+</head>
+<body>
+    <h1>Company Search</h1>
+    <input type="text" id="searchTerm" placeholder="Enter company name or number" style="height: 40px;  font-size: 16px;">
+
+<label><input type="checkbox" id="activeOnly"> Show only active companies</label> 
+
+<button onclick="searchCompanies()" style="height: 40px; width: 150px; font-size: 16px; padding: 10px;">Search</button>
+    <div id="totalResults"></div>
+    <div class="results-container" id="results"></div>
+
+    <script>
+        async function searchCompanies() {
+            const searchTerm = document.getElementById('searchTerm').value;
+            const activeOnly = document.getElementById('activeOnly').checked;
+            const resultsDiv = document.getElementById('results');
+            const totalResultsDiv = document.getElementById('totalResults'); 
+            resultsDiv.innerHTML = ''; 
+            totalResultsDiv.innerHTML = ''; 
+
+            if (!searchTerm) {
+                resultsDiv.innerHTML = '<p>Please enter a company name or number.</p>';
+                return;
+            }
+
+            try {
+                const response = await axios.post('/api/companies/search', {
+                    companyName: searchTerm,
+                    companyNumber: searchTerm
+                }, {
+                    params: { activeOnly }
+                });
+
+                const companies = response.data.items;
+
+                if (!companies || companies.length === 0) {
+                    resultsDiv.innerHTML = '<p>No companies found.</p>';
+                } else {
+                    totalResultsDiv.innerHTML = `<b>Total Results: ${companies.length}</b>`;
+
+                    companies.forEach(company => {
+                        const companyCard = document.createElement('div');
+                        companyCard.classList.add('company-card');
+
+                        const title = `<h2>${company.title || 'N/A'}</h2>`;
+                        const companyNumber = `<p>Number: ${company.company_number || 'N/A'}</p>`;
+                        const companyStatus = `<p>Status: ${company.company_status || 'N/A'}</p>`;
+                        const companyType = `<p>Type: ${company.company_type || 'N/A'}</p>`;
+                        const dateOfCreation = `<p>Created: ${company.date_of_creation || 'N/A'}</p>`;
+
+                        let address = 'N/A';
+                        if (company.address) {
+                            const addressParts = [
+                                company.address.premises,
+                                company.address.address_line_1,
+                                company.address.locality,
+                                company.address.postal_code,
+                                company.address.country
+                            ].filter(Boolean);
+                            address = `<p>${addressParts.join(', ')}</p>`;
+                        }
+
+                        const officersList = company.officers.map(officer => {
+                            const resignedOn = officer.resigned_on ? ` (Resigned: ${officer.resigned_on})` : '';
+                            return `<li>${officer.name} - ${officer.officer_role} (Appointed: ${officer.appointed_on}${resignedOn})</li>`;
+                        }).join('');
+
+                        const officers = `<h3>Officers:</h3><ul>${officersList || '<li>No officers found.</li>'}</ul>`;
+
+                        companyCard.innerHTML = title + companyNumber + companyStatus + companyType + dateOfCreation + `<h3>Address:</h3>` + address + officers;
+                        resultsDiv.appendChild(companyCard);
+                    });
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>An error occurred: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
