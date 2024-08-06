@@ -190,7 +190,7 @@ COMPANYSEARCH
 
 ## Screenshot
 
-![View Application Screenshot](https://drive.google.com/file/d/1lx2r_rOoDmrtucIbOT7yegjSXNv4oLtm/view?usp=drive_link)
+![View Application Screenshot] https://drive.google.com/file/d/1lx2r_rOoDmrtucIbOT7yegjSXNv4oLtm/view?usp=drive_link
 
 ## PS: The updated code is available under the master branch.
 
