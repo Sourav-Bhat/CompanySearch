@@ -194,17 +194,7 @@ COMPANYSEARCH
 - **Paging**: Paging is not implemented in this version.
 - **Further Enhancements**: You can extend this application by adding more features, improving the user interface, or implementing more advanced database queries.
 
-## TruProxyAPI Endpoints
 
-1. **Search for Company:**
-   `GET https://exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Search?Query={search_term}`
-
-2. **Get Company Officers:**
-   `GET https://exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Officers?CompanyNumber={number}`
-
-## Flow Diagram
-
-![Wireframe](https://raw.githubusercontent.com/TruNarrative/spring-exercise/main/spring_exercise.png)
 
 ## Screenshot
 
