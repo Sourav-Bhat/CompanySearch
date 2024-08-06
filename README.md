@@ -1,13 +1,11 @@
 # Company Search Application
 
-This Spring Boot application provides a REST API to search for companies and their officers using the TruProxy API. It also includes basic database persistence using JPA and Hibernate to store and retrieve company information for future searches.
-
+This Spring Boot application provides a REST API to search for companies and their officers using the TruProxy API.
 ## Features
 
 - Search for companies by name or registration number.
 - Filter search results to show only active companies.
 - Retrieve a list of active officers for each company.
-- Store company and officer information in a database for faster subsequent searches.
 
 ## Project Setup
 
@@ -30,10 +28,7 @@ This Spring Boot application provides a REST API to search for companies and the
      ```
    **Important: Do not check the API Key into the repository!**
 
-4. **Database Configuration (Optional)**
-   - If you want to use a different database for production, update the database connection settings in `application.properties`.
-
-5. **Build and Run**
+4. **Build and Run**
    ```bash
    mvn clean install
    mvn spring-boot:run
@@ -83,8 +78,7 @@ COMPANYSEARCH
 - **`com.sourav.companysearch.application`**
   - **`controller`**: Contains the `CompanyController`, which handles incoming API requests.
   - **`model`**: Defines the data models for `Company`, `Officer`, `Address`, `CompanySearchRequest`, `CompanySearchResponse`, and `OfficerResponse`.
-  - **`repository`**: Includes the `CompanyRepository` and `OfficerRepository` interfaces for database interaction (using Spring Data JPA).
-  - **`service`**: Contains the `CompanyService`, which handles the core business logic of fetching company and officer data from the TruProxy API and interacting with the database.
+  - **`service`**: Contains the `CompanyService`, which handles the core business logic of fetching company and officer data from the TruProxy API .
   - **`config`**: Provides configuration classes, such as `WebClientConfig` for setting up the `WebClient` used for API calls.
 
 ## API Endpoints
