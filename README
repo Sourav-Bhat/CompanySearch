@@ -1,6 +1,6 @@
 # Company Search Application
 
-This Spring Boot application provides a REST API to search for companies and their officers using the TruProxy API. It also includes basic database persistence using JPA and Hibernate to store and retrieve company information for future searches. 
+This Spring Boot application provides a REST API to search for companies and their officers using the TruProxy API. It also includes basic database persistence using JPA and Hibernate to store and retrieve company information for future searches.
 
 ## Features
 
@@ -28,6 +28,7 @@ This Spring Boot application provides a REST API to search for companies and the
      ```bash
      export TRUPROXYAPI_KEY=your-actual-api-key
      ```
+   **Important: Do not check the API Key into the repository!**
 
 4. **Database Configuration (Optional)**
    - If you want to use a different database for production, update the database connection settings in `application.properties`.
@@ -90,6 +91,8 @@ COMPANYSEARCH
 
 - **`POST /api/companies/search`**
   - Searches for companies based on the provided criteria.
+  - Headers:
+    - `x-api-key`: Your TruProxyAPI key
   - Request Body:
     ```json
     {
@@ -98,6 +101,7 @@ COMPANYSEARCH
     }
     ```
   - Query Parameter: `activeOnly` (boolean, default: false)
+  - If both `companyName` and `companyNumber` are provided, `companyNumber` is used.
   - Response:
     ```json
     {
@@ -118,6 +122,7 @@ COMPANYSEARCH
   ```bash
   curl -X POST http://localhost:8080/api/companies/search \
        -H 'Content-Type: application/json' \
+       -H 'x-api-key: your-api-key-here' \
        -d '{"companyNumber": "06500244"}'
   ```
 
@@ -133,7 +138,11 @@ COMPANYSEARCH
               "company_status": "active",
               "date_of_creation": "2008-02-11",
               "address": { 
-                  // ... Address object structure
+                  "locality": "Retford",
+                  "postal_code": "DN22 0AD",
+                  "premises": "Boswell Cottage Main Street",
+                  "address_line_1": "North Leverton",
+                  "country": "England"
               },
               "officers": [
                   {
@@ -141,7 +150,11 @@ COMPANYSEARCH
                       "officer_role": "secretary",
                       "appointed_on": "2008-02-11",
                       "address": { 
-                          // ... Address object structure 
+                          "premises": "5",
+                          "locality": "London",
+                          "address_line_1": "Cranford Close",
+                          "country": "England",
+                          "postal_code": "SW20 0DP"
                       }
                   }
               ]
@@ -156,6 +169,7 @@ COMPANYSEARCH
   ```bash
   curl -X POST http://localhost:8080/api/companies/search \
        -H 'Content-Type: application/json' \
+       -H 'x-api-key: your-api-key-here' \
        -d '{"companyName": "BBC LIMITED"}'
   ```
 
@@ -167,6 +181,7 @@ COMPANYSEARCH
   ```bash
   curl -X POST http://localhost:8080/api/companies/search?activeOnly=true \
        -H 'Content-Type: application/json' \
+       -H 'x-api-key: your-api-key-here' \
        -d '{"companyName": "Some Company"}' 
   ```
 
@@ -174,10 +189,17 @@ COMPANYSEARCH
 
 ## Additional Notes
 
-- **Testing**: The project includes unit and integration tests for the `CompanyController` and `CompanyService`. Run `mvn test` to execute the tests.
+- **Testing**: The project includes unit and integration tests for the `CompanyController` and `CompanyService`. Run `mvn test` to execute the tests. WireMock is used to mock `TruProxyAPI` calls in tests.
 - **Error Handling**: The `CompanyService` includes error handling and retry mechanisms to gracefully handle potential API issues.
-- **Further Enhancements**: You can extend this application by adding more features, improving the user interface, or implementing more advanced database queries. 
+- **Paging**: Paging is not implemented in this version.
+- **Further Enhancements**: You can extend this application by adding more features, improving the user interface, or implementing more advanced database queries.
+
+
+
+
 
 ## Screenshot
 
 ![View Application Screenshot](https://drive.google.com/file/d/1lx2r_rOoDmrtucIbOT7yegjSXNv4oLtm/view?usp=drive_link)
+
+(Note: You may need to open this link separately to view the screenshot)
